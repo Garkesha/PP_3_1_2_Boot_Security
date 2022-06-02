@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Users</title>
 </head>
 <body>
 <table>
@@ -15,13 +15,19 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
+    <tr th:if="${users.isEmpty()}">
+        <td colspan="5"> No Users Available </td>
+    </tr>
+    <tr th:each="user : ${users}">
         <td><span th:text="${user.id}"> model </span></td>
         <td><span th:text="${user.username}"> series </span></td>
+        <td><a th:href="@{admin/{id}/edit(id=${user.id})}" >edit</a></td>
+        <td><a th:href="@{admin/{id}/delete(id=${user.id})}" >delete</a></td>
     </tr>
     </tbody>
 
 </table>
+<a th:href="@{admin/new}" >add User</a>
 <div th:replace="fragments/logout :: logout"></div>
 </body>
 </html>
