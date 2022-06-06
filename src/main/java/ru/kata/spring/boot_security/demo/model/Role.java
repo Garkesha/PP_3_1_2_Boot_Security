@@ -1,10 +1,9 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import org.springframework.security.core.GrantedAuthority;
-import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.Objects;
 
 @Entity
 @Table(name = "roles")
@@ -12,53 +11,47 @@ public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
-    @Column(name = "name")
-    private String name;
-
-    @Transient
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    @Column(name = "roleName")
+    private String roleName;
 
     public Role() {
     }
 
-    public Role(int id) {
-        this.id = id;
-    }
-
-    public Role(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setRoleName(String name) {
+        this.roleName = roleName;
     }
 
     @Override
     public String getAuthority() {
-        return getName();
+        return getRoleName();
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Role role = (Role) o;
+        return Objects.equals(id, role.id) && Objects.equals(roleName, role.roleName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, roleName);
     }
 }
+

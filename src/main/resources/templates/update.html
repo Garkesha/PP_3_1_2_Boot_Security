@@ -1,29 +1,30 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html lang="en" xmlns:th=http://www.w3.org/1999/xhtml>
 <head>
     <meta charset="UTF-8">
-    <title>update</title>
+    <title>Update</title>
 </head>
 <body>
-<form  action="#" th:action="@{/users/update}" th:object="${user}" method="post">
-    <input type="hidden" th:field="*{id}" th:value="${user.id}">
-    <label for="name">Name</label>
-    <input type="text" th:field="*{username}" id="name" placeholder="Name" th:value="${user.username}">
-    <label for="lastName">lastName</label>
-    <input type="text" th:field="*{password}" id="lastName" placeholder="Email" th:value="${user.password}">
+<form action="#" th:action="@{/update}" th:object="${user}" method="POST" >
+    <label for="id"> ID </label>
+    <input readonly type="number" th:field="*{id}" id="id" placeholder="ID">
+    <label for="userName"> User Name</label>
+    <input type="text" th:field="*{username}" id="userName" placeholder="User Name">
+    <label for="password"> Password </label>
+    <input type="text" th:field="*{password}" id="password" placeholder="Password">
+    <label > Role </label>
+    <br><br>
+    <select name="nameRoles" multiple size="4">
+        <option th:each="role : ${roles}"
+                th:value="${role.RoleName}"
+                th:text="${role.getRoleName()}">
+        </option>
+    </select>
+    <br><br>
     <input type="submit" value="Update User">
-    <p>
-        <label>Roles:
-            <input type="checkbox" name="authorities"
-                   th:each="role : ${allRoles}"
-                   th:text="${role.name}"
-                   th:value="${role.id}"
-                   th:checked="${user.roles.contains(role)}"
-            />
-        </label>
-    </p>
 </form>
-<div th:replace="fragments/logout :: logout"></div>
+<form th:action="@{'/logout'}">
+    <input type="submit" , value="Logout"/>
+</form>
 </body>
-</html>>
+</html>

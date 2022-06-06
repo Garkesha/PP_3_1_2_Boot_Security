@@ -1,27 +1,32 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html lang="en" xmlns:th=http://www.w3.org/1999/xhtml>
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>User</title>
 </head>
 <body>
-<table>
-    <thead>
-    <tr>
-        <th> id </th>
-        <th> name </th>
-        <th> password </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td><span th:text="${user.id}"> model </span></td>
-        <td><span th:text="${user.username}"> series </span></td>
-    </tr>
-    </tbody>
+<h2> User page info</h2>
+<div th:if="${user}">
+    <table border="5">
+        <tr>
+            <th>ID</th>
+            <th>UserName</th>
+            <th>Role</th>
+        </tr>
+        <td th:text="${user.getId()}"></td>
+        <td th:text="${user.getUsername()}"></td>
+        <td>
+        <span th:each="role : ${user.getUserRoles()}">
+            <span th:text="${role.getRoleName()}"></span>
+        </span>
+        </td>
 
-</table>
-<div th:replace="fragments/logout :: logout"></div>
+    </table>
+</div>
+<br/>
+<br/>
+<form th:action="@{'/logout'}">
+    <input type="submit" , value="Logout"/>
+</form>
 </body>
 </html>

@@ -3,25 +3,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>create</title>
+    <title>Create user</title>
 </head>
 <body>
-<form action="#" th:action="@{adduser}" th:object="${user}" method="post">
-    <label for="name">Name</label>
-    <input type="text" th:field="*{username}" id="name" placeholder="Name">
-    <label for="lastName">password</label>
-    <input type="text" th:field="*{password}" id="lastName" placeholder="lastname">
+<form action="#" th:action="@{/create}" th:object="${user}" method="post">
+    <label for="username">User name</label>
+    <input type="text" th:field="*{username}" id="username" placeholder="User name">
+    <label for="password">Password</label>
+    <input type="text" th:field="*{password}" id="password" placeholder="Password">
     <p>
-        <label>Roles:
-            <input type="checkbox" name="authorities"
-                   th:each="role : ${allRoles}"
-                   th:text="${role.name}"
-                   th:value="${role.id}"
-            />
-        </label>
+        <select name="nameRoles" multiple size="2">
+            <option th:each="role : ${roles}"
+                    th:value="${role.RoleName}"
+                    th:text="${role.getRoleName()}">
+            </option>
+        </select>
     </p>
     <input type="submit" value="Add User">
 </form>
-<div th:replace="fragments/logout :: logout"></div>
+<form th:action="@{'/logout'}">
+    <input type="submit" , value="Logout"/>
+</form>
 </body>
 </html>
