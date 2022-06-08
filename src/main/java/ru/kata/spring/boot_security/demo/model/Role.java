@@ -40,6 +40,10 @@ public class Role implements GrantedAuthority {
         return getRoleName();
     }
 
+    public String getRoleFormat() {
+        return roleName.replace("ROLE_", "") + " ";
+    }
+
 
     @Override
     public boolean equals(Object o) {

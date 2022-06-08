@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -53,9 +54,16 @@ public class User implements UserDetails {
         this.userRoles = userRoles;
     }
 
+    public void setOneRole(Role role) {
+        if (userRoles == null) {
+            userRoles = new HashSet<>();
+        }
+        userRoles.add(role);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return userRoles;
+        return getUserRoles();
     }
 
     @Override

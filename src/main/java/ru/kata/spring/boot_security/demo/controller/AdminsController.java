@@ -1,14 +1,18 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminsController {
     private UserService userService;
     private RoleService roleService;
@@ -19,9 +23,12 @@ public class AdminsController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/admin")
-    public String adminPage(Model model) {
+    @GetMapping
+    public String adminPage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        model.addAttribute("user", userService.loadUserByUsername(userDetails.getUsername()));
         model.addAttribute("users", userService.getAll());
+        model.addAttribute("newUser", new User());
+        model.addAttribute("roleSet", roleService.getAllRoles());
         return "/admin";
     }
 
@@ -46,18 +53,26 @@ public class AdminsController {
     }
 
 
-    @GetMapping("/update/{id}")
-    public String updateUserForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.findById(id));
-        model.addAttribute("roles", roleService.getAllRoles());
-        return "/update";
-    }
+//    @GetMapping("/update/{id}")
+//    public String updateUserForm(@PathVariable("id") Long id, Model model) {
+//        model.addAttribute("user", userService.findById(id));
+//        model.addAttribute("roles", roleService.getAllRoles());
+//        return "/update";
+//    }
 
-    @PostMapping("/update")
-    public String updateUser(@ModelAttribute("user") User user,
-                             @RequestParam(value = "nameRoles", required = false) String roles) {
-        user.setUserRoles(roleService.getRoleByName(roles));
-        userService.saveUser(user);
+    @PostMapping(value = "/update/{id}")
+    public String updateUser(@ModelAttribute User user, @RequestParam(value = "check", required = false) Long[] check) {
+        if (check == null) {
+            user.setOneRole((Role) roleService.getRoleByName("ROLE_USER"));
+            userService.saveUser(user);
+        } else {
+            for (Long l : check) {
+                if (l != null) {
+                    user.setOneRole(roleService.getRoleById(l));
+                    userService.saveUser(user);
+                }
+            }
+        }
         return "redirect:/admin";
     }
 }
