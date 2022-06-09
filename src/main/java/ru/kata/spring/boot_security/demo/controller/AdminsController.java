@@ -32,33 +32,26 @@ public class AdminsController {
         return "/admin";
     }
 
-    @GetMapping("/create")
-    public String createUserForm(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("roles", roleService.getAllRoles());
-        return "/create";
-    }
-
     @PostMapping("/create")
-    public String createUser(@ModelAttribute("user") User user,
-                             @RequestParam(value = "nameRoles", required = false) String roles) {
-        user.setUserRoles(roleService.getRoleByName(roles));
+    public String createUser(@ModelAttribute User user, @RequestParam(value = "check", required = false) Long[] check) {
+        if (check == null) {
+            user.setOneRole((Role) roleService.getRoleByName("ROLE_USER"));
+        } else {
+            for (Long l : check) {
+                if (l != null) {
+                    user.setOneRole(roleService.getRoleById(l));
+                }
+            }
+        }
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deletedById(id);
         return "redirect:/admin";
     }
-
-
-//    @GetMapping("/update/{id}")
-//    public String updateUserForm(@PathVariable("id") Long id, Model model) {
-//        model.addAttribute("user", userService.findById(id));
-//        model.addAttribute("roles", roleService.getAllRoles());
-//        return "/update";
-//    }
 
     @PostMapping(value = "/update/{id}")
     public String updateUser(@ModelAttribute User user, @RequestParam(value = "check", required = false) Long[] check) {
