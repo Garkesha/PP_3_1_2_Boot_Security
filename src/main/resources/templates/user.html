@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th=http://www.w3.org/1999/xhtml xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Admin page</title>
@@ -27,36 +28,50 @@
 </nav>
 <div class="container-fluid bg-light">
     <div class="row">
-        <div class="col-sm-2 bg-white">
+        <div class="col-sm-2 bg-white min-vh-100">
             <ul class="nav nav-pills flex-column">>
                 <br><br><br>
-                <li class="nav-item" sec:autorize="hasAuthority('ROLE_ADMIN')">
+                <li class="nav-item" sec:authorize="hasAuthority('ROLE_ADMIN')">
                     <a class="nav-link" th:href="@{/admin}">Admin</a>
                 </li>
-                <li class="nav-item" sec:autorize="hasAuthority('ROLE_USER')">
+                <li class="nav-item" sec:authorize="hasAuthority('ROLE_USER')">
                     <a class="nav-link active" th:href="@{/user}">User</a>
                 </li>
             </ul>
         </div>
         <div class="col-sm-10 bg-light">
             <br><br><br>
-            <table class="table table-striped">
-                <tr>
-                    <th>ID</th>
-                    <th>UserName</th>
-                    <th>Role</th>
-                </tr>
-                <td th:text="${user.getId()}"></td>
-                <td th:text="${user.getUsername()}"></td>
-                <td>
-        <span th:each="role : ${user.getUserRoles()}"
-              th:text="${role.getRoleFormat()}"></span>
-                </td>
-            </table>
-
-            <br><br><br>
-            <div sec:autorize="hasAuthority('ROLE_ADMIN')">Текст для админа</div>
-
+            <h2>User information-page</h2>
+            <div class="tab-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col border bg-light">
+                            <p><h6>About User</h6>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col border bg-white">
+                            <br/>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>UserName</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </thead>
+                                </tbody>
+                                    <td th:text="${user.getId()}"></td>
+                                    <td th:text="${user.getUsername()}"></td>
+                                    <td>
+                                <span th:each="role : ${user.getUserRoles()}"
+                                      th:text="${role.getRoleFormat()}"></span>
+                                    </td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
