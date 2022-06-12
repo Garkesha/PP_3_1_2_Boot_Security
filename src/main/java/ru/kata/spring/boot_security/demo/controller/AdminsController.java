@@ -11,11 +11,22 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import javax.annotation.PostConstruct;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminsController {
     private UserService userService;
     private RoleService roleService;
+
+    @PostConstruct
+    public void addTestUser() {
+        roleService.addRole(new Role("ROLE_ADMIN"));
+        roleService.addRole(new Role("ROLE_USER"));
+        userService.saveUser(new User("admin", "1234", roleService.getRoleByName("ROLE_ADMIN")));
+        userService.saveUser(new User("user", "1111", roleService.getRoleByName("ROLE_USER")));
+    }
+
 
     @Autowired
     public AdminsController(UserService userService, RoleService roleService) {
