@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 
+import javax.annotation.PostConstruct;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,5 +36,12 @@ public class RoleServiceImp implements RoleService {
     @Override
     public void addRole(Role role) {
         roleRepository.save(role);
+    }
+
+    @Override
+    @PostConstruct
+    public void addTestRoles(){
+        roleRepository.save(new Role("ROLE_ADMIN"));
+        roleRepository.save(new Role("ROLE_USER"));
     }
 }

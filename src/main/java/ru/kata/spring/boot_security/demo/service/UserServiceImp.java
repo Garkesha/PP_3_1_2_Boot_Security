@@ -9,20 +9,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service
 public class UserServiceImp implements UserService, UserDetailsService {
     private final UserRepository userRepository;
 
+    private final RoleService roleService;
+
     private final PasswordEncoder passwordEncoder ;
 
     @Autowired
-    public UserServiceImp(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImp(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, RoleService roleService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     @Override
@@ -58,5 +63,11 @@ public class UserServiceImp implements UserService, UserDetailsService {
             throw new UsernameNotFoundException("User with this " + username + " User Name not found");
         }
         return userDetails;
+    }
+
+    @Override
+    @PostConstruct
+    public void addTestUsers(){
+//        saveUser(new User("admin22", "1234"));
     }
 }

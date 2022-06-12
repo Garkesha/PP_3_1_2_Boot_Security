@@ -9,4 +9,5 @@ public interface RoleService {
     Role getRoleById(Long id);
     Set<Role> getRoleByName(String rollName);
     void addRole(Role role);
+    void addTestRoles();
 }

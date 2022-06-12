@@ -8,6 +8,8 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import javax.annotation.PostConstruct;
+
 @Controller
 public class AdminsController {
     private UserService userService;
@@ -17,6 +19,13 @@ public class AdminsController {
     public AdminsController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
+    }
+
+
+    @PostConstruct
+    public void addTestUsers(){
+        userService.saveUser(new User("admin", "1234", roleService.getRoleByName("ROLE_ADMIN")));
+        userService.saveUser(new User("user", "1111", roleService.getRoleByName("ROLE_USER")));
     }
 
     @GetMapping("/admin")
