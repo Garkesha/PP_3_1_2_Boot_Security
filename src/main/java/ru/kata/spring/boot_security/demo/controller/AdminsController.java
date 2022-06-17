@@ -23,8 +23,8 @@ public class AdminsController {
     public void addTestUser() {
         roleService.addRole(new Role("ROLE_ADMIN"));
         roleService.addRole(new Role("ROLE_USER"));
-        userService.saveUser(new User("admin", "1234", roleService.getRoleByName("ROLE_ADMIN")));
-        userService.saveUser(new User("user", "1111", roleService.getRoleByName("ROLE_USER")));
+        userService.saveUser(new User("admin", "1234", "Ivan", "Ivanov", (byte) 33, roleService.getRoleByName("ROLE_ADMIN")));
+        userService.saveUser(new User("user", "1111", "Petr", "Petrov", (byte) 20, roleService.getRoleByName("ROLE_USER")));
     }
 
 

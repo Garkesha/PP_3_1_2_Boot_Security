@@ -66,6 +66,9 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>UserName</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Age</th>
                                         <th>Roles</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
@@ -75,6 +78,9 @@
                                     <tr th:each="user : ${users}">
                                         <td th:text="${user.getId()}"></td>
                                         <td th:text="${user.getUsername()}"></td>
+                                        <td th:text="${user.getName()}"></td>
+                                        <td th:text="${user.getLastName()}"></td>
+                                        <td th:text="${user.getAge()}"></td>
                                         <td>
                                                 <span th:each="role : ${user.getUserRoles()}"
                                                       th:text="${role.getRoleFormat()}">
@@ -110,6 +116,24 @@
                                                                     <br/>
                                                                     <input type="text" class="form-control"
                                                                            th:value="${user.getUsername()}" id="upUserName" name="username">
+                                                                    <br/>
+
+                                                                    <strong><label for="upName">First name:</label></strong>
+                                                                    <br/>
+                                                                    <input type="text" class="form-control"
+                                                                           th:value="${user.getName()}" id="upName" name="name">
+                                                                    <br/>
+
+                                                                    <strong><label for="upLastName">Last Name:</label></strong>
+                                                                    <br/>
+                                                                    <input type="text" class="form-control"
+                                                                           th:value="${user.getLastName()}" id="upLastName" name="lastName">
+                                                                    <br/>
+
+                                                                    <strong><label for="upAge">Age:</label></strong>
+                                                                    <br/>
+                                                                    <input type="text" class="form-control"
+                                                                           th:value="${user.getAge()}" id="upAge" name="age">
                                                                     <br/>
 
                                                                     <strong><label for="upPassword">Password:</label></strong>
@@ -174,6 +198,30 @@
                                                                            id="deleteUsername" name="username" readonly>
                                                                     <br/>
 
+                                                                    <strong><label
+                                                                            for="deleteName">First Name: </label></strong>
+                                                                    <br/>
+                                                                    <input type="text" class="form-control"
+                                                                           th:value="${user.getName()}"
+                                                                           id="deleteName" name="name" readonly>
+                                                                    <br/>
+
+                                                                    <strong><label
+                                                                            for="deleteLastName">Last Name: </label></strong>
+                                                                    <br/>
+                                                                    <input type="text" class="form-control"
+                                                                           th:value="${user.getLastName()}"
+                                                                           id="deleteLastName" name="LastName" readonly>
+                                                                    <br/>
+
+                                                                    <strong><label
+                                                                            for="deleteAge">Age: </label></strong>
+                                                                    <br/>
+                                                                    <input type="text" class="form-control"
+                                                                           th:value="${user.getAge()}"
+                                                                           id="deleteAge" name="Age" readonly>
+                                                                    <br/>
+
                                                                     <select multiple class="form-control w-100"
                                                                             id="deleteRoles" name="userRoles" readonly>
                                                                         <option
@@ -225,6 +273,36 @@
 
                                 <div class="form-group row justify-content-center align-items-center">
                                     <div class="col-sm-3">
+                                        <strong><label for="addName">First Name: </label></strong>
+                                        <br/>
+                                        <input type="text" class="form-control" th:field="*{name}"
+                                               id="addName"
+                                               placeholder="First Name">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row justify-content-center align-items-center">
+                                    <div class="col-sm-3">
+                                        <strong><label for="addLastName">Last Name: </label></strong>
+                                        <br/>
+                                        <input type="text" class="form-control" th:field="*{LastName}"
+                                               id="addLastName"
+                                               placeholder="Last Name">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row justify-content-center align-items-center">
+                                    <div class="col-sm-3">
+                                        <strong><label for="addAge">Age: </label></strong>
+                                        <br/>
+                                        <input type="text" class="form-control" th:field="*{age}"
+                                               id="addAge"
+                                               placeholder="Age">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row justify-content-center align-items-center">
+                                    <div class="col-sm-3">
                                         <strong><label for="addPassword">Password: </label></strong>
                                         <br/>
                                         <input type="password" class="form-control" th:field="*{password}"
@@ -235,7 +313,7 @@
 
                                 <div class="form-group row justify-content-center align-items-center">
                                     <div class="col-sm-3">
-                                        <label for="roles">Select roles: </label>
+                                        <strong><label for="roles">Select roles: </label></strong>
                                         <select multiple class="form-control w-100" id="roles" name="check">
                                             <option
                                                     th:each="role : ${roleSet}"
