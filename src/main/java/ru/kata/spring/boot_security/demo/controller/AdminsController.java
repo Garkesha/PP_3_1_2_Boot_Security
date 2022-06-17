@@ -43,7 +43,11 @@ public class AdminsController {
     @PostMapping("/create")
     public String createUser(@ModelAttribute("user") User user,
                              @RequestParam(value = "nameRoles", required = false) String roles) {
-        user.setUserRoles(roleService.getRoleByName(roles));
+        if(roles == null){
+            user.setUserRoles(roleService.getRoleByName("ROLE_USER"));
+        } else {
+            user.setUserRoles(roleService.getRoleByName(roles));
+        }
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -65,7 +69,11 @@ public class AdminsController {
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("user") User user,
                              @RequestParam(value = "nameRoles", required = false) String roles) {
-        user.setUserRoles(roleService.getRoleByName(roles));
+        if(roles == null){
+            user.setUserRoles(roleService.getRoleByName("ROLE_USER"));
+        } else {
+            user.setUserRoles(roleService.getRoleByName(roles));
+        }
         userService.saveUser(user);
         return "redirect:/admin";
     }
